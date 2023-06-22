@@ -1,5 +1,5 @@
 class Api::V1::WorkoutsController < ApplicationController
-  before_action :authenticate_user
+  before_action :authenticate_request
 
   def index
     workouts = current_user.workouts
@@ -33,6 +33,6 @@ class Api::V1::WorkoutsController < ApplicationController
   private
 
   def workout_params
-    params.require(:workout).permit(:exercise, :sets, :reps)
+    params.require(:workout).permit(:date, :name, :weight, :sets, :reps)
   end
 end
