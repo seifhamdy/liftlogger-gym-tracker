@@ -10,9 +10,7 @@ module ExceptionHandler
       render json: { error: e.message }, status: :unprocessable_entity
     end
 
-    rescue_from ExceptionHandler::MissingToken do |e|
-      render json: { error: e.message }, status: :unprocessable_entity
-    end
+    rescue_from ExceptionHandler::MissingToken, with: :missing_token
 
     rescue_from ExceptionHandler::InvalidToken do |e|
       render json: { error: e.message }, status: :unauthorized
@@ -23,7 +21,13 @@ module ExceptionHandler
     end
   end
 
-  class MissingToken < ActionController::ParameterMissing; end
+  private
+
+  def missing_token(error)
+    render json: { error: error.message }, status: :unprocessable_entity
+  end
+
+  class MissingToken < StandardError; end
 
   class InvalidToken < StandardError; end
 end

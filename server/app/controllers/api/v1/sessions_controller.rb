@@ -1,9 +1,11 @@
 class Api::V1::SessionsController < ApplicationController
+  skip_before_action :authenticate_request, only: :create
+
   def create
     user = User.find_by(email: params[:email])
-    if user&.authenticate(params[:password])
-      # Generate and return authentication token or use sessions
-      render json: { token: "generated_token" }, status: :ok
+    if user && user.valid_password?(params[:password])
+      token = JsonWebToken.encode(user_id: user.id)
+      render json: { token: token }, status: :ok
     else
       render json: { error: "Invalid email or password" }, status: :unauthorized
     end
