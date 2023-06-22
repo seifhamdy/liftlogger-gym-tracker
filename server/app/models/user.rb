@@ -43,4 +43,10 @@ class User
       user.password = Devise.friendly_token[0, 20]
     end
   end
+
+  def destroy
+    # Perform any necessary cleanup or dependent record deletion
+    workouts.destroy_all
+    super
+  end
 end

@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  skip_before_action :authenticate_request, only: :create
+  before_action :authenticate_request, except: :create
 
   def create
     user = User.new(user_params)
@@ -8,6 +8,11 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    current_user.destroy
+    render json: { message: 'Account deleted successfully' }, status: :ok
   end
 
   private
