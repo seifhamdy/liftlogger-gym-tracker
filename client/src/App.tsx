@@ -1,12 +1,12 @@
-import React from 'react';
-import HomePage from './HomePage';
+import React, { useState } from 'react'
+import HomePage from './HomePage'
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <HomePage />
+        <HomePage />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

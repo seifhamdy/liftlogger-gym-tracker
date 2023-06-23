@@ -27,6 +27,6 @@ module Server
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
     config.autoload_paths += %W(#{config.root}/lib)
-
+    # config.action_controller.default_protect_from_forgery = :null_session
   end
 end

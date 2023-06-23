@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal, Button, Form, OverlayTrigger } from 'react-bootstrap'
 import Popover from 'react-bootstrap/Popover'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
+import { getApiUrl } from './config/apiConfig'
 
 const HomePage: React.FC = () => {
   const [loginModalOpen, setLoginModalOpen] = useState(false)
@@ -28,6 +28,14 @@ const HomePage: React.FC = () => {
   const closeSignupModal = () => {
     setSignupModalOpen(false)
   }
+
+  useEffect(() => {
+    if (!signupModalOpen || !loginModalOpen) {
+      setEmail('')
+      setPassword('')
+      setConfirmPassword('')
+    }
+  }, [signupModalOpen, loginModalOpen])
 
   const renderEmailPopover = (content: string) => {
     const showPopover = !isEmailValid()
@@ -63,58 +71,86 @@ const HomePage: React.FC = () => {
     return email !== '' && emailRegex.test(email)
   }
 
-  const handleLoginSubmit = () => {
-    const emailInput = document.getElementById(
-      'login-email'
-    ) as HTMLInputElement
-    const passwordInput = document.getElementById(
-      'login-password'
-    ) as HTMLInputElement
+  const handleLoginSubmit = async () => {
+    try {
+      const response = await fetch(`${getApiUrl()}/login/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
 
-    if (emailInput.value.trim() === '') {
-      // Handle email validation error
-      return
+      if (response.ok) {
+        const responseData = await response.json()
+        console.log("ok")
+        // You can perform any necessary actions, such as storing the user ID in state or local storage, and redirecting the user
+      } else {
+        console.log('Login Failed')
+      }
+    } catch (error) {
+      console.log('registration error', error)
     }
-
-    if (passwordInput.value.length < 6) {
-      // Handle password validation error
-      return
-    }
-
-    // Perform login logic
   }
 
-  const handleSignupSubmit = () => {
-    const emailInput = document.getElementById(
-      'signup-email'
-    ) as HTMLInputElement
-    const passwordInput = document.getElementById(
-      'signup-password'
-    ) as HTMLInputElement
-    const confirmPasswordInput = document.getElementById(
-      'signup-confirm-password'
-    ) as HTMLInputElement
+  const handleSignupSubmit = async () => {
+    // if (!isEmailValid() || !isPasswordValid() || password !== confirmPassword) {
+    //   console.log("invalid creds")
+    //   return;
+    // }
 
-    if (emailInput.value.trim() === '') {
-      // Handle email validation error
-      return
+    try {
+      const response = await fetch(`${getApiUrl()}/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user: {
+            email,
+            password,
+            password_confirmation: confirmPassword,
+          },
+        }),
+      })
+
+      if (response.ok) {
+        console.log('ok')
+      } else {
+        // Handle registration failure
+        console.log('Registration Failed')
+      }
+    } catch (error) {
+      // Handle registration error
+      console.log('Registration Error:', error)
     }
+  }
+  const authenticateUser = async (credential: string) => {
+    try {
+      const response = await fetch('/api/v1/users/google_oauth2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ credential }),
+      })
 
-    if (passwordInput.value.length < 6) {
-      // Handle password validation error
-      return
+      if (response.ok) {
+        // User successfully authenticated with Google on the backend
+        // You can redirect the user or perform any necessary actions
+      } else {
+        console.log('Authentication Failed')
+      }
+    } catch (error) {
+      console.log('Authentication Error:', error)
     }
-
-    if (passwordInput.value !== confirmPasswordInput.value) {
-      // Handle password confirmation validation error
-      return
-    }
-
-    // Perform signup logic
   }
 
   return (
-    <GoogleOAuthProvider clientId="<908912375420-acl7jai127m4miqtcd5bst3vesvdodsr.apps.googleusercontent.com>">
+
       <div className="container-fluid d-flex flex-column align-items-center justify-content-center vh-100 bg-dark">
         <h1 className="display-1 text-center text-white">LiftLogger</h1>
         <div className="button-container mt-4 d-flex flex-column">
@@ -132,12 +168,17 @@ const HomePage: React.FC = () => {
           </button>
           <GoogleLogin
             onSuccess={(credentialResponse) => {
-              console.log(credentialResponse)
+              if (credentialResponse.credential) {
+                authenticateUser(credentialResponse.credential)
+              } else {
+                console.log('Credential is undefined')
+              }
             }}
             onError={() => {
               console.log('Login Failed')
             }}
           />
+          ;
         </div>
 
         <Modal show={loginModalOpen} onHide={closeLoginModal} centered>
@@ -235,7 +276,11 @@ const HomePage: React.FC = () => {
               variant="primary"
               onClick={handleSignupSubmit}
               disabled={
-                !(isEmailValid() && isPasswordValid() && (password === confirmPassword))
+                !(
+                  isEmailValid() &&
+                  isPasswordValid() &&
+                  password === confirmPassword
+                )
               }
             >
               Submit
@@ -243,7 +288,6 @@ const HomePage: React.FC = () => {
           </Modal.Footer>
         </Modal>
       </div>
-    </GoogleOAuthProvider>
   )
 }
 
