@@ -129,7 +129,7 @@ const DashboardPage: React.FC = () => {
       })
 
       if (response.ok) {
-        window.location.href = '/' 
+        window.location.href = '/'
       } else {
         console.log('Error:', response.statusText)
       }
@@ -143,15 +143,6 @@ const DashboardPage: React.FC = () => {
       const headers = {
         'Content-Type': 'application/json',
       }
-      const test = JSON.stringify({
-        workout: {
-          date: liftData.date,
-          name: liftData.name,
-          weight: parseInt(liftData.weight),
-          sets: parseInt(liftData.sets),
-          reps: parseInt(liftData.reps),
-        },
-      })
       const response = await fetch(`${apiUrl}/workouts`, {
         method: 'POST',
         headers,
