@@ -37,7 +37,7 @@ gem 'devise'
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'omniauth'
-
+gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem 'omniauth-google-oauth2'
 
 gem 'jwt'
