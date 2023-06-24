@@ -32,29 +32,29 @@
 # Ignore master key for decrypting credentials and more.
 /server/config/master.key
 /server/.env
-/client/.env
+server/client/.env
 
-/client/logs
-/client/*.log
-/client/npm-debug.log*
-/client/yarn-debug.log*
-/client/yarn-error.log*
-/client/pnpm-debug.log*
-/client/lerna-debug.log*
+server/client/logs
+server/client/*.log
+server/client/npm-debug.log*
+server/client/yarn-debug.log*
+server/client/yarn-error.log*
+server/client/pnpm-debug.log*
+server/client/lerna-debug.log*
 
-/client/node_modules
-/client/dist
-/client/dist-ssr
-/client/*.local
+server/client/node_modules
+server/client/dist
+server/client/dist-ssr
+server/client/*.local
 
 # Editor directories and files
-/client/.vscode/*
-/client/!.vscode/extensions.json
-/client/.idea
-/client/.DS_Store
-/client/*.suo
-/client/*.ntvs*
-/client/*.njsproj
-/client/*.sln
-/client/*.sw?
+/server/client/.vscode/*
+/server/client/!.vscode/extensions.json
+/server/client/.idea
+/server/client/.DS_Store
+/server/client/*.suo
+/server/client/*.ntvs*
+/server/client/*.njsproj
+/server/client/*.sln
+/server/client/*.sw?
 

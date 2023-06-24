@@ -112,6 +112,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.2)
     minitest (5.18.1)
     mongo (2.18.2)
       bson (>= 4.14.1, < 5.0.0)
@@ -131,6 +132,9 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
+    nokogiri (1.15.2)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.15.2-x64-mingw-ucrt)
       racc (~> 1.4)
     oauth2 (2.0.9)
@@ -156,7 +160,6 @@ GEM
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     orm_adapter (0.5.0)
-    pg (1.5.3-x64-mingw-ucrt)
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.7.1)
@@ -204,6 +207,9 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
+    sqlite3 (1.6.3)
+      mini_portile2 (~> 2.8.0)
+    sqlite3 (1.6.3-x64-mingw-ucrt)
     thor (1.2.2)
     timeout (0.3.2)
     tzinfo (2.0.6)
@@ -219,6 +225,7 @@ GEM
     zeitwerk (2.6.8)
 
 PLATFORMS
+  ruby
   x64-mingw-ucrt
 
 DEPENDENCIES
@@ -231,10 +238,10 @@ DEPENDENCIES
   omniauth
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
-  pg
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.5)
+  sqlite3
   tzinfo-data
 
 RUBY VERSION
