@@ -5,7 +5,7 @@ set -o errexit
 # Add build commands for front end
 rm -rf public
 npm install --prefix client && npm run build --prefix client
-cp -a client/build/. public/
+cp -a client/dist/. public/
 
 bundle install
 bundle exec rake assets:precompile
