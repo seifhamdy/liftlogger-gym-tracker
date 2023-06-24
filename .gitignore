@@ -5,56 +5,55 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-/server/.bundle
+.bundle
 
 # Ignore the default SQLite database.
-/server/db/*.sqlite3
-/server/db/*.sqlite3-*
+/db/*.sqlite3
+/db/*.sqlite3-*
 
 # Ignore all logfiles and tempfiles.
-/server/log/*
-/server/tmp/*
-/server/!/log/.keep
-/server/!/tmp/.keep
+/log/*
+/tmp/*
+/!/log/.keep
+/!/tmp/.keep
 
 # Ignore pidfiles, but keep the directory.
-/server/tmp/pids/*
-/server/!/tmp/pids/
-/server/!/tmp/pids/.keep
+/tmp/pids/*
+/!/tmp/pids/
+/!/tmp/pids/.keep
 
 # Ignore uploaded files in development.
-/server/storage/*
-/server/!/storage/.keep
-/server/tmp/storage/*
-/server/!/tmp/storage/
-/server/!/tmp/storage/.keep
+/storage/*
+/!/storage/.keep
+/tmp/storage/*
+/!/tmp/storage/
+/!/tmp/storage/.keep
 
 # Ignore master key for decrypting credentials and more.
-/server/config/master.key
-/server/.env
-server/client/.env
+/config/master.key
+.env
 
-server/client/logs
-server/client/*.log
-server/client/npm-debug.log*
-server/client/yarn-debug.log*
-server/client/yarn-error.log*
-server/client/pnpm-debug.log*
-server/client/lerna-debug.log*
+/client/logs
+/client/*.log
+/client/npm-debug.log*
+/client/yarn-debug.log*
+/client/yarn-error.log*
+/client/pnpm-debug.log*
+/client/lerna-debug.log*
 
-server/client/node_modules
-server/client/dist
-server/client/dist-ssr
-server/client/*.local
+/client/node_modules
+/client/dist
+/client/dist-ssr
+/client/*.local
 
 # Editor directories and files
-/server/client/.vscode/*
-/server/client/!.vscode/extensions.json
-/server/client/.idea
-/server/client/.DS_Store
-/server/client/*.suo
-/server/client/*.ntvs*
-/server/client/*.njsproj
-/server/client/*.sln
-/server/client/*.sw?
+/client/.vscode/*
+/client/!.vscode/extensions.json
+/client/.idea
+/client/.DS_Store
+/client/*.suo
+/client/*.ntvs*
+/client/*.njsproj
+/client/*.sln
+/client/*.sw?
 
