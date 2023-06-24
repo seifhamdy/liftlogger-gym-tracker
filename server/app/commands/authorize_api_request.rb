@@ -17,14 +17,22 @@ class AuthorizeApiRequest
 
   def guest_user
     return if @headers["Authorization"].nil?
-    User.new # Create a new guest user for the sign-up endpoint
+    User.new
   end
 
   def decoded_auth_token
-    @decoded_auth_token ||= JsonWebToken.decode(http_auth_header)
+    @decoded_auth_token ||= JsonWebToken.decode(auth_token)
   end
 
-  def http_auth_header
-    @headers["Authorization"].presence
+  def auth_token
+    cookie_token || header_token
+  end
+
+  def cookie_token
+    @headers["Cookie"]&.match(/token=([^;]+)/)&.[](1)
+  end
+
+  def header_token
+    @headers["Authorization"].to_s.split(" ").last.presence
   end
 end

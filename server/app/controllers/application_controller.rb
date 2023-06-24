@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::API
+  include ActionController::Cookies
   before_action :authenticate_request
   attr_reader :current_user
 
-  include ExceptionHandler # Add this line to include the ExceptionHandler module
+  include ExceptionHandler
 
   private
 
@@ -11,5 +12,9 @@ class ApplicationController < ActionController::API
     render json: { error: "Not authorized" }, status: :unauthorized unless @current_user
   rescue ExceptionHandler::MissingToken, JWT::DecodeError => e
     render json: { error: "Invalid token" }, status: :unauthorized
+  end
+
+  module ExceptionHandler
+    class MissingToken < StandardError; end
   end
 end

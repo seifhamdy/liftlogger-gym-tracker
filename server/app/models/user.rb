@@ -45,7 +45,6 @@ class User
   end
 
   def destroy
-    # Perform any necessary cleanup or dependent record deletion
     workouts.destroy_all
     super
   end

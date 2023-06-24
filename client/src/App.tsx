@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import HomePage from './HomePage'
+import DashboardPage from './DashboardPage'
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-        <HomePage />
-    </div>
+    <Routes>
+        <Route path='/' element={ <HomePage /> } />
+        <Route path='/dashboard' element={ <DashboardPage /> } />
+    </Routes>
   )
 }
 

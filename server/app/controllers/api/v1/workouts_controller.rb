@@ -1,5 +1,5 @@
 class Api::V1::WorkoutsController < ApplicationController
-  before_action :authenticate_request
+  before_action :authenticate_request, :set_access_control_headers
 
   def index
     workouts = current_user.workouts
@@ -34,5 +34,10 @@ class Api::V1::WorkoutsController < ApplicationController
 
   def workout_params
     params.require(:workout).permit(:date, :name, :weight, :sets, :reps)
+  end
+
+  def set_access_control_headers
+    response.set_header('Access-Control-Allow-Origin', request.headers['Origin'])
+    response.set_header('Access-Control-Allow-Credentials', 'true')
   end
 end

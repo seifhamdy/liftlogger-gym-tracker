@@ -3,9 +3,11 @@ import { Modal, Button, Form, OverlayTrigger } from 'react-bootstrap'
 import Popover from 'react-bootstrap/Popover'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { GoogleLogin } from '@react-oauth/google'
+import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from './config/apiConfig'
 
 const HomePage: React.FC = () => {
+  const navigate = useNavigate();
   const [loginModalOpen, setLoginModalOpen] = useState(false)
   const [signupModalOpen, setSignupModalOpen] = useState(false)
 
@@ -82,26 +84,22 @@ const HomePage: React.FC = () => {
           email,
           password,
         }),
+        credentials: 'include',
       })
 
       if (response.ok) {
         const responseData = await response.json()
-        console.log("ok")
-        // You can perform any necessary actions, such as storing the user ID in state or local storage, and redirecting the user
+        document.cookie = `token=${responseData.token}; path=/; secure; HttpOnly`;
+        navigate('/dashboard')
       } else {
         console.log('Login Failed')
       }
     } catch (error) {
-      console.log('registration error', error)
+      console.log('Login error', error)
     }
   }
 
   const handleSignupSubmit = async () => {
-    // if (!isEmailValid() || !isPasswordValid() || password !== confirmPassword) {
-    //   console.log("invalid creds")
-    //   return;
-    // }
-
     try {
       const response = await fetch(`${getApiUrl()}/users`, {
         method: 'POST',
@@ -118,13 +116,11 @@ const HomePage: React.FC = () => {
       })
 
       if (response.ok) {
-        console.log('ok')
+        setSignupModalOpen(false)
       } else {
-        // Handle registration failure
         console.log('Registration Failed')
       }
     } catch (error) {
-      // Handle registration error
       console.log('Registration Error:', error)
     }
   }
@@ -139,8 +135,9 @@ const HomePage: React.FC = () => {
       })
 
       if (response.ok) {
-        // User successfully authenticated with Google on the backend
-        // You can redirect the user or perform any necessary actions
+        const responseData = await response.json()
+        document.cookie = `token=${responseData.token}; path=/; secure; HttpOnly`;
+        navigate('/dashboard')
       } else {
         console.log('Authentication Failed')
       }
