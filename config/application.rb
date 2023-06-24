@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+require 'sprockets/railtie'
 require "dotenv/load" if (ENV['RUBY_ENV'] == "development" || ENV['RUBY_ENV'] == "test")
 
 # Require the gems listed in Gemfile, including any gems
