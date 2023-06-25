@@ -29,7 +29,7 @@ class AuthorizeApiRequest
   end
 
   def cookie_token
-    @headers["Cookie"]&.match(/token=([^;]+)/)&.[](1)
+    @headers["Cookie"]&.match(/jwt_token=([^;]+)/)&.[](1)
   end
 
   def header_token
