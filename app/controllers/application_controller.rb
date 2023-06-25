@@ -9,8 +9,6 @@ class ApplicationController < ActionController::API
 
   def authenticate_request
     token = extract_token
-    puts "1"
-    puts token
     @current_user = AuthorizeApiRequest.new(headers: { "Authorization" => token, "Cookie" => request.headers["Cookie"] }).result
     render json: { error: "Not authorized" }, status: :unauthorized unless @current_user
   rescue ExceptionHandler::MissingToken, JWT::DecodeError => e
