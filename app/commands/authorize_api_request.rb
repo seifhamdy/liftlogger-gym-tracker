@@ -39,10 +39,10 @@ class AuthorizeApiRequest
   end
 
   def cookie_token
-    @headers["Cookie"]&.match(/jwt_token=([^;]+)/)&.[](1)
+    @headers["Cookie"]&.match(/jwt_token=([^;]+)/)&.captures&.first
   end
 
   def header_token
-    @headers["Authorization"].to_s.split(" ").last.presence
+    @headers["Authorization"]&.split(" ")&.last
   end
 end
