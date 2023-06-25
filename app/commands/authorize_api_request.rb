@@ -1,5 +1,7 @@
 class AuthorizeApiRequest
   def initialize(headers = {})
+    puts "2"
+    puts headers
     @headers = headers
   end
 
@@ -10,6 +12,8 @@ class AuthorizeApiRequest
   private
 
   def user
+    puts "3"
+    puts decoded_auth_token
     @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
   rescue Mongoid::Errors::DocumentNotFound => e
     nil
@@ -21,6 +25,7 @@ class AuthorizeApiRequest
   end
 
   def decoded_auth_token
+    puts auth_token
     @decoded_auth_token ||= JsonWebToken.decode(auth_token)
   end
 
