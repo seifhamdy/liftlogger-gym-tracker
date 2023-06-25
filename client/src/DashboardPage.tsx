@@ -3,6 +3,7 @@ import { Modal, Button, Form, Card } from 'react-bootstrap'
 import { getApiUrl } from './config/apiConfig'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import Cookies from 'js-cookie'
 
 interface Workout {
   date: string
@@ -67,7 +68,6 @@ const DashboardPage: React.FC = () => {
       return newDate
     })
   }
-
 
   const handleNextDay = () => {
     setCurrentDate((prevDate) => {
@@ -140,8 +140,12 @@ const DashboardPage: React.FC = () => {
   const handleConfirm = async () => {
     try {
       const apiUrl = getApiUrl()
-      const headers = {
+      const headers = new Headers({
         'Content-Type': 'application/json',
+      })
+      const jwtToken = Cookies.get('jwt_token')
+      if (jwtToken) {
+        headers.append('Authorization', jwtToken)
       }
       const response = await fetch(`${apiUrl}/workouts`, {
         method: 'POST',
@@ -173,28 +177,28 @@ const DashboardPage: React.FC = () => {
     liftData.weight &&
     liftData.sets &&
     liftData.reps
-    )
+  )
 
-    const validateNumberInput = (value: string) => {
-      const parsedValue = parseInt(value, 10)
-      return !isNaN(parsedValue) && parsedValue >= 0
-    }
+  const validateNumberInput = (value: string) => {
+    const parsedValue = parseInt(value, 10)
+    return !isNaN(parsedValue) && parsedValue >= 0
+  }
 
-    const formatDate = (date: Date | null): string => {
-      if (date) {
-        const options: Intl.DateTimeFormatOptions = {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        }
-        return date.toLocaleDateString(undefined, options)
+  const formatDate = (date: Date | null): string => {
+    if (date) {
+      const options: Intl.DateTimeFormatOptions = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
       }
-      return ''
+      return date.toLocaleDateString(undefined, options)
     }
+    return ''
+  }
 
-    return (
-      <div className="bg-secondary" style={{ height: '100vh' }}>
+  return (
+    <div className="bg-secondary" style={{ height: '100vh' }}>
       <nav className="navbar navbar-expand navbar-dark bg-dark justify-content-between">
         <div>
           <button className="btn btn-outline-light" onClick={handlePreviousDay}>
@@ -203,7 +207,7 @@ const DashboardPage: React.FC = () => {
           <button
             className="btn btn-outline-light"
             onClick={() => setShowDatePicker(true)}
-            >
+          >
             {formatDate(currentDate)}
           </button>
           <button className="btn btn-outline-light" onClick={handleNextDay}>
@@ -225,9 +229,9 @@ const DashboardPage: React.FC = () => {
         <div className="d-flex flex-wrap justify-content-center">
           {workouts.map((workout, index) => (
             <Card
-            key={index}
-            style={{ width: '95%' }}
-            className="m-1 text-center bg-dark text-white rounded-lg"
+              key={index}
+              style={{ width: '95%' }}
+              className="m-1 text-center bg-dark text-white rounded-lg"
             >
               <Card.Body>
                 {workout && workout.name ? (
@@ -245,7 +249,7 @@ const DashboardPage: React.FC = () => {
                   </>
                 ) : (
                   <Card.Text>No workout data available.</Card.Text>
-                  )}
+                )}
               </Card.Body>
             </Card>
           ))}
@@ -261,7 +265,7 @@ const DashboardPage: React.FC = () => {
         show={showDatePicker}
         onHide={() => setShowDatePicker(false)}
         centered
-        >
+      >
         <Modal.Header>
           <Modal.Title>Select Date</Modal.Title>
         </Modal.Header>
@@ -272,7 +276,7 @@ const DashboardPage: React.FC = () => {
             dateFormat="yyyy-MM-dd"
             placeholderText="Select a date"
             className="form-control"
-            />
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowDatePicker(false)}>
@@ -296,7 +300,7 @@ const DashboardPage: React.FC = () => {
                 onBlur={handleInputBlur}
                 required
                 isInvalid={touched.date && !liftData.date}
-                />
+              />
             </Form.Group>
             <Form.Group controlId="lift-name">
               <Form.Label>Name</Form.Label>
@@ -308,7 +312,7 @@ const DashboardPage: React.FC = () => {
                 onBlur={handleInputBlur}
                 required
                 isInvalid={touched.name && !liftData.name}
-                />
+              />
             </Form.Group>
             <Form.Group controlId="lift-weight">
               <Form.Label>Weight</Form.Label>
@@ -323,7 +327,7 @@ const DashboardPage: React.FC = () => {
                 isInvalid={
                   touched.weight && !validateNumberInput(liftData.weight)
                 }
-                />
+              />
             </Form.Group>
             <Form.Group controlId="lift-sets">
               <Form.Label>Sets</Form.Label>
@@ -336,7 +340,7 @@ const DashboardPage: React.FC = () => {
                 required
                 min="0"
                 isInvalid={touched.sets && !validateNumberInput(liftData.sets)}
-                />
+              />
             </Form.Group>
             <Form.Group controlId="lift-reps">
               <Form.Label>Reps</Form.Label>
@@ -349,7 +353,7 @@ const DashboardPage: React.FC = () => {
                 required
                 min="0"
                 isInvalid={touched.reps && !validateNumberInput(liftData.reps)}
-                />
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -361,7 +365,7 @@ const DashboardPage: React.FC = () => {
             variant="primary"
             onClick={handleConfirm}
             disabled={isConfirmDisabled}
-            >
+          >
             Confirm
           </Button>
         </Modal.Footer>
