@@ -146,6 +146,8 @@ const DashboardPage: React.FC = () => {
       const jwtToken = Cookies.get('jwt_token')
       if (jwtToken) {
         headers.append('Authorization', jwtToken)
+      } else {
+        console.log("Error: No token")
       }
       const response = await fetch(`${apiUrl}/workouts`, {
         method: 'POST',
