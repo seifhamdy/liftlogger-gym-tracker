@@ -13,8 +13,7 @@ class AuthorizeApiRequest
     puts header_token
     puts cookie_token
     puts auth_token
-    puts decoded_auth_token
-    @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
+    @user ||= User.find(JsonWebToken.decode(auth_token)[:user_id]) if JsonWebToken.decode(auth_token)
   rescue Mongoid::Errors::DocumentNotFound => e
     nil
   end
@@ -22,10 +21,6 @@ class AuthorizeApiRequest
   def guest_user
     return if @headers["Authorization"].nil?
     User.new
-  end
-
-  def decoded_auth_token
-    @decoded_auth_token ||= JsonWebToken.decode(auth_token)
   end
 
   def auth_token
