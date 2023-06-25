@@ -25,11 +25,16 @@ class AuthorizeApiRequest
   end
 
   def decoded_auth_token
+    puts "4"
     puts auth_token
     @decoded_auth_token ||= JsonWebToken.decode(auth_token)
   end
 
   def auth_token
+    puts "c"
+    puts cookie_token
+    puts "h"
+    puts header_token
     cookie_token || header_token
   end
 
