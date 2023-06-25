@@ -10,6 +10,9 @@ class AuthorizeApiRequest
   private
 
   def user
+    puts header_token
+    puts cookie_token
+    puts auth_token
     puts decoded_auth_token
     @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
   rescue Mongoid::Errors::DocumentNotFound => e
