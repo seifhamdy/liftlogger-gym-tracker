@@ -8,11 +8,13 @@ class ApplicationController < ActionController::API
   private
 
   def authenticate_request
-    @current_user = AuthorizeApiRequest.new(request.headers).result
+    token = cookies['jwt_token'] || request.headers['Authorization']
+    @current_user = AuthorizeApiRequest.new(token).result
     render json: { error: "Not authorized" }, status: :unauthorized unless @current_user
   rescue ExceptionHandler::MissingToken, JWT::DecodeError => e
     render json: { error: "Invalid token" }, status: :unauthorized
   end
+
 
   module ExceptionHandler
     class MissingToken < StandardError; end

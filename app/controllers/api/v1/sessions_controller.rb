@@ -7,6 +7,7 @@ class Api::V1::SessionsController < ApplicationController
     if user && user.valid_password?(params[:password])
       token = JsonWebToken.encode(user_id: user.id)
       cookies[:jwt_token] = { value: token, httponly: true }
+      response.headers['Authorization'] = token
       render json: { message: "Logged in" }, status: :ok
     else
       render json: { error: "Invalid email or password" }, status: :unauthorized
