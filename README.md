@@ -22,7 +22,7 @@ This Gym logger app was created to address a common problem me and my gym buddie
 
 ## Usage
 
-Visit x to demo the app
+Visit [LiftLogger](https://liftlogger-app.onrender.com/) to demo the app
 
 ## Roadmap
 
@@ -30,6 +30,7 @@ Visit x to demo the app
 * [ ] Add password reset functionality
 * [ ] Implement Google OAuth
 * [ ] Improve exception handling
+* [ ] Improve UX by adding alerts for failed requests
 * [ ] Add graphs to track progress over time
 * [ ] Protect the /dashboard route further and overall improve on security
 
