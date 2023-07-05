@@ -33,6 +33,8 @@ Visit [LiftLogger](https://liftlogger-app.onrender.com/) to demo the app
 * [ ] Improve UX by adding alerts for failed requests
 * [ ] Add graphs to track progress over time
 * [ ] Protect the /dashboard route further and overall improve on security
+* [ ] Update the favicon
+* [ ] Migrate from Render
 
 ## Contributing
 
